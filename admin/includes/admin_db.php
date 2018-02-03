@@ -28,6 +28,4 @@ if($connection){
     echo "Failed to connect!";
 }
 
-
-
 ?>

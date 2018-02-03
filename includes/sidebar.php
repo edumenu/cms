@@ -1,7 +1,10 @@
 <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
                 
-
+    <div class="well">
+        <h4>View project on github: <a class="btn btn-success" href="https://github.com/edumenu/cms" target="_blank">Github</a></h4>
+   </div> 
+                
                 <!-- Blog Search Well -->
                 <div class="well">
                     <h4>Blog Search</h4>
