@@ -27,27 +27,26 @@
                     
                 }
                 
-                
-                
-                $query = "SELECT * FROM posts WHERE post_user = '{$the_post_author}'";
-                 $select_all_posts_query = mysqli_query($connection,$query);
+                $stmt = mysqli_prepare($connection, "SELECT post_title, post_user, post_date, post_image, post_content FROM posts WHERE post_user = ?");
+                mysqli_stmt_bind_param($stmt, "s", $the_post_author);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_bind_result($stmt, $post_title, $post_author, $post_date, $post_image, $post_content);
+
+                confirmQuery($stmt);
                   
                 //Print out data obtained from posts database
                 //this function fetches a row from the database as 
                 //associative array
-                while($row = mysqli_fetch_assoc($select_all_posts_query)){
-                    $post_title = $row['post_title'];
-                    $post_author = $row['post_user'];
-                    $post_date = $row['post_date'];
-                    $post_image = $row['post_image'];
-                    $post_content = $row['post_content'];
+                while(mysqli_stmt_fetch($stmt)){
+
                     
                 ?>
                    
+<!--
                    <h1 class="page-header">
                     Page Heading
-                    <small>Secondary Text</small>
                 </h1>
+-->
 
                 <!-- First Blog Post -->
                 <h2>

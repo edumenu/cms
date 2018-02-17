@@ -3,61 +3,85 @@
  
  <?php
 
-if(isset($_POST['submit'])){
+//Detecting a post method
+if($_SERVER['REQUEST_METHOD'] == "POST"){
  
- $username = $_POST['username'];
- $password = $_POST['password'];
- $email = $_POST['email'];
-    
-    
-    
-if(!empty($username) && !empty($password) && !empty($email)){
-    
-    
- //Encrypting information obtained from the user.
-//This function escapes special characters in a string for use in an SQL statement
- $username = mysqli_real_escape_string($connection, $username);
- $password = mysqli_real_escape_string($connection, $password);
- $email    = mysqli_real_escape_string($connection, $email);
-    
-//first parameter = password
-//Second parameter = algorithm
-//cost is the amount of time it takes a function to give you a new hash 
-$password = password_hash( $password, PASSWORD_BCRYPT, array('cost' => 12));
-    
-$query = "INSERT INTO users (username, user_email, user_password, user_role) ";
-$query .= "VALUES('{$username}','{$email}','{$password}','subscriber' )";
-$register_user_query = mysqli_query($connection, $query);
-if(!$register_user_query){
-    die("Query failed!" . mysqli_error($connection) . ' ' . mysqli_errno($connection));
-}
-    
- $message = " <div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-     Your registration has been submitted!</div>"; 
-    
-} else{
-    
-    $message = " <div class='alert alert-danger'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-     Fields cannot be empty!</div>";
-    
-    
-}
-        
-    
-}else{
-    
-    $message = "";
-} 
-?>
 
+     $username = $_POST['username'];
+     $password = $_POST['password'];
+     $email = $_POST['email'];
+
+    //Associative error array
+     $error = [
+
+       'username'=> '',
+       'email'=> '',
+       'password'=> ''
+     ];
+
+     //Checking for the length of the username    
+     if(strlen($username) < 4){
+         $error['username'] = 'Username needs to longer';
+     }
+
+     //Checking to see if username is empty     
+     if($username == ''){
+         $error['username'] = 'Username cannot be empty';
+     }
+
+    //Checking to see if username exists    
+     if(username_exists($username)){
+         $error['username'] = 'Username already exists';
+     }
+
+     //Checking to see if email is empty     
+     if($email == ''){
+         $error['email'] = 'Email cannot be empty';
+     }
+
+    //Checking to see if email is exist    
+     if(email_exists($email)){
+         $error['email'] = 'Email already exists"';
+     }
+
+     //Checking to see if password is empty     
+     if($password == ''){
+         $error['password'] = 'Password cannot be empty';
+     }
+
+    //Looping thorugh the array of errors 
+     foreach($error as $key=> $value){
+
+         if(empty($value)){
+
+             //Destroying any variables in the array
+             unset($error[$key]);
+
+         }
+
+     }//End of foreach
+
+
+    if(empty($error)){
+
+        //Registring the new user
+        register_user($username, $email, $password);
+
+        //Loging in the user after registration
+//          login_user($username, $password);
+
+    }
+    
+}
+?>
 
     <!-- Navigation -->
     
     <?php  include "includes/navigation.php"; ?>
     
  
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
     
 <section id="login">
     <div class="container">
@@ -66,22 +90,39 @@ if(!$register_user_query){
                 <div class="form-wrap">
                 <h1 class="text-center">Register</h1>
                     <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
-                       
-                       <h6 class="text-center"><?php echo $message?></h6>
+        
                         <div class="form-group">
                             <label for="username" class="sr-only">username</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username" autocomplete="on"
+                                   
+                            value="<?php echo isset($username) ? $username : ''?>">
+                            
+                            <p><?php echo isset($error['username']) ? $error['username'] : ''?></p>
+                            
+<!--<div class='alert alert-danger'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>-->
+                            
                         </div>
+                        
                          <div class="form-group">
                             <label for="email" class="sr-only">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com" autocomplete="on"
+                                   
+                            value="<?php echo isset($email) ? $email : ''?>">
+                             
+                            <p><?php echo isset($error['email']) ? $error['email'] : ''?></p>
+                             
                         </div>
+                        
                          <div class="form-group">
                             <label for="password" class="sr-only">Password</label>
                             <input type="password" name="password" id="key" class="form-control" placeholder="Password">
+                             
+                             
+                               <p><?php echo isset($error['password']) ? $error['password'] : ''?></p>
+                             
                         </div>
                 
-                        <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
+                        <input type="submit" name="register" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
                     </form>
 
                  
@@ -90,7 +131,6 @@ if(!$register_user_query){
         </div> <!-- /.row -->
     </div> <!-- /.container -->
 </section>
-
 
         <hr>
 

@@ -22,13 +22,29 @@
      move_uploaded_file($post_image_temp, "../images/$post_image");
      
      
-     $query = "INSERT INTO posts(post_category_id,post_title, post_user, post_date, post_image, post_content, post_tags, post_status) ";
+//     $query = "INSERT INTO posts(post_category_id,post_title, post_user, post_date, post_image, post_content, post_tags, post_status) ";
+//     
+//     $query .= "VALUES({$post_category_id},'{$post_title}','{$post_user}',now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}')";
+//     
+//     $create_post_query = mysqli_query($connection, $query);
+//     
+//     confirmQuery($create_post_query);
      
-     $query .= "VALUES({$post_category_id},'{$post_title}','{$post_user}',now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}')";
      
-     $create_post_query = mysqli_query($connection, $query);
+     $stmt = mysqli_prepare($connection, "INSERT INTO posts(post_category_id, post_title, post_user, post_date, post_image, post_content, post_tags, post_status) VALUES(?,?,?,?,?,?,?,?)");
+//     $date = now();
+        mysqli_stmt_bind_param($stmt, "isssssss", $post_category_id, $post_title, $post_user, $post_date, $post_image, $post_content, $post_tags, $post_status);
+        mysqli_stmt_execute($stmt);
+
+        confirmQuery($stmt);
+            
+        mysqli_stmt_close($stmt);
      
-     confirmQuery($create_post_query);
+     
+     
+     
+     
+     
      
      //This function will return the last created title in the table 
      //$post_title = mysqli_insert_id($connection);

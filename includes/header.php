@@ -1,4 +1,6 @@
+<!-- This function creates a new session or resumes a current one based on a session identifier passed via GET or POST -->
 <?php session_start(); ?>
+<?php include "admin/functions.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,13 +16,13 @@
     <title>Blog Home - Start Bootstrap Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/new_website/cms_2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/blog-home.css" rel="stylesheet">
+    <link href="/new_website/cms_2/css/blog-home.css" rel="stylesheet">
     
     <!-- Style CSS -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="/new_website/cms_2/css/styles.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,7 +31,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-    <link href="admin/css/styles.css" rel="stylesheet">
+    <link href="/new_website/cms_2/admin/css/styles.css" rel="stylesheet">
     
 
 </head>

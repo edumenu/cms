@@ -5,25 +5,20 @@ if(isset($_GET['edit_user'])){
      $the_user_id = escape($_GET['edit_user']);
     
 
-    //Displaying the users information in the fields after selecting which user to select.
-    $query = "SELECT * FROM users WHERE user_id = $the_user_id";
-    $select_users_query = mysqli_query($connection,$query);
-    
+    //Displaying the users information in the fields after selecting which user to edit
+    $stmt = mysqli_prepare($connection, "SELECT user_id, username, user_password, user_firstname, user_lastname, user_email, user_image, user_role FROM users WHERE user_id = ?");
 
-    while($row = mysqli_fetch_assoc($select_users_query)){
-        $user_id = $row['user_id'];
-        $username = $row['username'];
-        $user_password = $row['user_password'];
-        $user_firstname = $row['user_firstname'];
-        $user_lastname = $row['user_lastname'];
-        $user_email = $row['user_email'];
-        $user_image = $row['user_image'];
-        $user_role = $row['user_role'];
-    
+    //Checking for errors
+    confirmQuery($stmt);
+
+    mysqli_stmt_bind_param($stmt, "i", $the_user_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $user_id, $username, $user_password, $user_firstname, $user_lastname, $user_email, $user_image, $user_role);
+
+    while(mysqli_stmt_fetch($stmt)){
+
     }
     
-
-
 ?>
 
 <?php
@@ -41,48 +36,70 @@ if(isset($_GET['edit_user'])){
      
     if(!empty($user_password)){
         
-        $query_password = "SELECT * FROM users WHERE user_id = $the_user_id";
-        $get_user_query = mysqli_query($connection, $query_password);
-        confirmQuery($get_user_query);
+        $stmt = mysqli_prepare($connection, "SELECT user_password FROM users WHERE user_id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $the_user_id);
+        mysqli_stmt_execute($stmt);
+        confirmQuery($stmt);
+        mysqli_stmt_bind_result($stmt, $db_user_password);
         
-        $row = mysqli_fetch_array($get_user_query);
+         while(mysqli_stmt_fetch($stmt)){
+
+         }
         
-        $db_user_password = $row['user_password'];
         
-     
+        mysqli_stmt_close($stmt);
+        
         if($db_user_password != $user_password){
+
+        //first parameter = password
+        //Second parameter = algorithm
+        //cost is the amount of time it takes a function to give you a new hash}
+         $hashed_password = password_hash( $user_password, PASSWORD_BCRYPT, array('cost' => 12));
+            
+         //Query to update user's info when password hasn't been provided
+        $stmt = mysqli_prepare($connection, "UPDATE users SET user_firstname = ?, user_lastname = ?, user_role = ?, username = ?, user_email = ?, user_password = ? WHERE user_id = ?");
+        mysqli_stmt_bind_param($stmt, "ssssssi", $user_firstname, $user_lastname, $user_role, $username, $user_email, $hashed_password, $the_user_id);
+        mysqli_stmt_execute($stmt);
+
+        confirmQuery($stmt);
+
+        mysqli_stmt_close($stmt);
+            
+            
+
+         }else{
+            
+         //Query to update user's info when password isn't the same as the one in the database    
+         $stmt = mysqli_prepare($connection, "UPDATE users SET user_firstname = ?, user_lastname = ?, user_role = ?, username = ?, user_email = ?, user_password = ? WHERE user_id = ?");
+        mysqli_stmt_bind_param($stmt, "ssssssi", $user_firstname, $user_lastname, $user_role, $username, $user_email, $user_password, $the_user_id);
+        mysqli_stmt_execute($stmt);
+
+        confirmQuery($stmt);
+
+        mysqli_stmt_close($stmt);    
+            
+        }
         
-    //first parameter = password
-    //Second parameter = algorithm
-    //cost is the amount of time it takes a function to give you a new hash}
-     $hashed_password = password_hash( $user_password, PASSWORD_BCRYPT, array('cost' => 12));
+          }else{
+        
+        //Query to update user's info when password hasn't been provided
+        $stmt = mysqli_prepare($connection, "UPDATE users SET user_firstname = ?, user_lastname = ?, user_role = ?, username = ?, user_email = ? WHERE user_id = ?");
+        mysqli_stmt_bind_param($stmt, "sssssi", $user_firstname, $user_lastname, $user_role, $username, $user_email, $the_user_id);
+        mysqli_stmt_execute($stmt);
+
+        confirmQuery($stmt);
+
+        mysqli_stmt_close($stmt);
+        
+        
         
     }
-        
-    //Query to update to the selected posted
-    $query = "UPDATE users SET ";
-    $query .= "user_firstname = '{$user_firstname}', ";
-    $query .= "user_lastname = '{$user_lastname}', ";
-    $query .= "user_role = '{$user_role}', ";
-    $query .= "username = '{$username}', ";
-    $query .= "user_email = '{$user_email}', ";
-    $query .= "user_password = '{$hashed_password}' ";
-    $query .= "WHERE user_id = {$the_user_id} ";
-    
-    
-    $edit_user_query = mysqli_query($connection,$query);
-    
-    confirmQuery($edit_user_query);   
+           
         
     echo "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
     User updated: <a href='users.php' class='alert-link'>{$user_firstname} {$user_lastname} </a></div>";
-        
-        
-    }
-     
-    //header("Location: users.php"); //This will refresh the page
-     
-  }
+
+ }
     
 
 }else{

@@ -13,7 +13,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">CMS Front</a>
+                <a class="navbar-brand" href="/new_website/cms_2/index">CMS Front</a>
             </div>
             
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -32,40 +32,43 @@
                     $cat_title = $row['cat_title'];
                     $cat_id = $row['cat_id'];
                     
-                    echo "<li> <a href='category.php?category=$cat_id&title=$cat_title'>{$cat_title}</a> </li>";
+                    $category_class = '';
                     
-                }
+                    $registration_class = '';
                     
+                    $contact_class = '';
                     
-                ?>
-                   
-                <li>
-                    <a href="admin">Admin</a>
-                </li>
-
-                <?php
-               //Checking the user role, if the user is an admin or a subscriber, add an edit post link to the navigation 
-                if(isset($_SESSION['user_role'])){
-                //Checking for a post id 
-                    if(isset($_GET['p_id'])){
+                    //This will tell us the current page we are on
+                    $pageName = basename($_SERVER['PHP_SELF']);
+                    
+                    $registration = 'registration.php';
+                    
+                    $contact = 'contact.php';
+                    
+                    //Assigning a active  
+                    if(isset($_GET['category']) && $_GET['category'] == $cat_id){
                         
-                        $the_post_id = $_GET['p_id'];
+                       $category_class = 'active'; 
                         
-                        echo "<li><a href='admin/posts.php?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
+                    }else if($pageName == $registration){
                         
+                        $registration_class = 'active';
+                    }else if($pageName == $contact){
+                        
+                        $contact_class = 'active';
                     }
                     
+                    echo "<li class='$category_class'> <a href='category.php?category=$cat_id&title=$cat_title'>{$cat_title}</a> </li>";
                     
                 }
-
+                    
                 ?>
 
-
-                <li>
-                    <a href="registration.php">Registration</a>
+                <li class='<?php echo $$registration_class; ?>'>
+                    <a href="/new_website/cms_2/registration">Registration</a>
                 </li>
-                   <li>
-                    <a href="contact.php">Contact</a>
+                   <li  class='<?php echo $contact_class; ?>'>
+                    <a href="/new_website/cms_2/contact">Contact</a>
                 </li>
                     
                     

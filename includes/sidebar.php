@@ -1,8 +1,8 @@
 <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
                 
-    <div class="well">
-        <h4>View project on github: <a class="btn btn-success" href="https://github.com/edumenu/cms" target="_blank">Github</a></h4>
+    <div class="well" data-spy="affix" data-offset-top="205">
+        <h4>View project on github: <a class="btn btn-primary" href="https://github.com/edumenu/cms" target="_blank">Github</a></h4>
    </div> 
                 
                 <!-- Blog Search Well -->
@@ -23,21 +23,44 @@
                 
                 
        <!-- Login -->
-    <div class="well">
-        <h4>Login</h4>
-    <form action="includes/login.php" method="post">
-        <div class="form-group">
-            <input name="username" type="text" class="form-control" placeholder="Enter Username">
-        </div>
-          
-           <div class="input-group">
-            <input name="password" type="password" class="form-control" placeholder="Enter Password">
-            <span class="input-group-btn">
-                <button class="btn btn-danger" name="login" type="submit">Submit</button>
-            </span>
-        </div>
-        </form>
+    <div class="well" data-spy="affix" data-offset-top="205">
+       <?php if(isLoggedIn()): ?>
+       
+       <h4>Logged in as: <b><?php echo $_SESSION['firstname']; echo " " . $_SESSION['lastname']?></b></h4>
+       
+       <h4>Go to admin page: <a href="admin/index.php" class="btn btn-primary">Admin Page</a></h4>
+        
+        <h4>Logout of profile: <a href="includes/logout.php" class="btn btn-danger">Logout</a></h4>
+        
+           <!--Checking for a post id-->
+        <!-- Checking the user role, if the user is an admin or a subscriber, add an edit post link to the side navigation -->
+        <?php if(isset($_GET['p_id'])){
+                $the_post_id = $_GET['p_id'];
+         ?>
+        <h4>Edit post: <a class="btn btn-info" href='admin/posts.php?source=edit_post&p_id=<?php echo $the_post_id?>'>Edit Post</a></h4>
+        <?php } ?>
+
+       <?php else: ?>
+       
+       <h4>Login: <a href="login.php" class="btn btn-success">Login</a> </h4>
+<!--
+           <form action="includes/login.php" method="post">
+                <div class="form-group">
+                    <input name="username" type="text" class="form-control" placeholder="Enter Username">
+                </div>
+
+                   <div class="input-group">
+                    <input name="password" type="password" class="form-control" placeholder="Enter Password">
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" name="login" type="submit">Submit</button>
+                    </span>
+                </div>
+            </form>
+-->
         <!-- /.input-group -->
+       
+       <?php endif; ?>
+       
     </div>
       
                
@@ -59,42 +82,42 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
       <div class="item active">
-        <img src="/cms_2/images/dashboard.jpg" alt="Dashboard" style="width:100%;">
+        <img src="images/dashboard.jpg" alt="Dashboard" style="width:100%;">
          <div class="carousel-caption">
           <h3>Dashboard</h3>
         </div>
       </div>
 
       <div class="item">
-        <img src="/cms_2/images/categories.jpg" alt="Categories" style="width:100%;">
+        <img src="images/categories.jpg" alt="Categories" style="width:100%;">
         <div class="carousel-caption">
           <h3>Categories</h3>
         </div>
       </div>
     
       <div class="item">
-        <img src="/cms_2/images/comments.jpg" alt="Comments" style="width:100%;">
+        <img src="images/comments.jpg" alt="Comments" style="width:100%;">
         <div class="carousel-caption">
           <h3>Comments</h3>
         </div>
       </div>
        
        <div class="item">
-        <img src="/cms_2/images/posts.jpg" alt="Posts" style="width:100%;">
+        <img src="images/posts.jpg" alt="Posts" style="width:100%;">
         <div class="carousel-caption">
           <h3>Posts</h3>
         </div>
       </div>
       
        <div class="item">
-        <img src="/cms_2/images/users.jpg" alt="Users" style="width:100%;">
+        <img src="images/users.jpg" alt="Users" style="width:100%;">
         <div class="carousel-caption">
           <h3>Users</h3>
         </div>
       </div>
        
        <div class="item">
-        <img src="/cms_2/images/profile.jpg" alt="Profile" style="width:100%;">
+        <img src="images/profile.jpg" alt="Profile" style="width:100%;">
         <div class="carousel-caption">
           <h3>Profile</h3>
         </div>
@@ -113,20 +136,7 @@
   </div>
 </div>
 </div>        
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
+                     
                 <!-- Blog Categories Well -->
                 <div class="well">
                    
@@ -167,4 +177,4 @@
                 <!-- Side Widget Well -->
                <?php include "widget.php"; ?>
 
-            </div>
+</div>

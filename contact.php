@@ -14,25 +14,12 @@ if(isset($_POST['submit'])){
     
     
  // send email
-mail($to,$subject,$body, $header);
+mail($to,$subject,$body,$header);
     
     echo "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
      Email sent! </div>";
     
 }
-    
-//if(!empty($to) && !empty($subject) && !empty($body)){
-//    
-// $to = mysqli_real_escape_string($connection, $username);
-// $subject = mysqli_real_escape_string($connection, $password);
-// $body  = mysqli_real_escape_string($connection, $email);
-//    
-//
-//}
-//
-//}
-
-
  ?>
 
 

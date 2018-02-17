@@ -9,26 +9,22 @@ if(isset($_GET['p_id'])){
 
 
 //Find all categories query
-$query = "SELECT * FROM posts WHERE post_id = {$the_post_id} ";
-$select_posts_by_id = mysqli_query($connection,$query);
+$stmt = mysqli_prepare($connection, "SELECT post_id, post_category_id, post_title, post_user, post_date, post_image, post_content, post_tags, post_comment_count, post_status FROM posts WHERE post_id = ?");
 
-while($row = mysqli_fetch_assoc($select_posts_by_id)){
-    $post_id = $row['post_id'];
-    $post_category_id = $row['post_category_id'];
-    $post_title = $row['post_title'];
-    $post_user = $row['post_user'];
-    $post_date = $row['post_date'];
-    $post_image = $row['post_image'];
-    $post_content = $row['post_content'];
-    $post_tags = $row['post_tags'];
-    $post_comment_count = $row['post_comment_count'];
-    $post_status = $row['post_status'];
+//Checking for errors
+confirmQuery($stmt);
+
+mysqli_stmt_bind_param($stmt, "i", $the_post_id);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_bind_result($stmt, $post_id, $post_category_id, $post_title, $post_user, $post_date, $post_image, $post_content, $post_tags, $post_comment_count, $post_status);
+
+while(mysqli_stmt_fetch($stmt)){
+
 }
 
 
 //Updating in the database by send the values in the fields 
 if(isset($_POST['update_post'])){
-    
     
      $post_title = escape($_POST['title']);
      $post_category_id = escape($_POST['post_category']);
@@ -48,59 +44,36 @@ if(isset($_POST['update_post'])){
     //Checking to see if the post image is empty, if it is, it will be retrieved from the database
     if(empty($post_image)){
         
-        $query = "SELECT * FROM posts WHERE post_id = $the_post_id";
-        $select_image = mysqli_query($connection,$query);
-        
-        while($row = mysqli_fetch_array($select_image)){
-            
-            $post_image = $row['post_image'];
+        $stmt = mysqli_prepare($connection, "SELECT post_image FROM posts WHERE post_id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $the_post_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt,$post_image);
+
+        confirmQuery($stmt);
+
+
+        while(mysqli_stmt_fetch($stmt)){
+
         }
-        
-    }
+    }    
     
+    $stmt = mysqli_prepare($connection, "UPDATE posts SET post_category_id = ?, post_title = ?, post_user = ?, post_date = now(), post_image = ?, post_content = ?,
+    post_tags = ?, post_status = ? WHERE post_id = ?");
+    mysqli_stmt_bind_param($stmt, "issssssi", $post_category_id, $post_title, $post_user, $post_image, $post_content, $post_tags, $post_status, $post_id);
+    mysqli_stmt_execute($stmt);
+
+    confirmQuery($stmt);
+
+    mysqli_stmt_close($stmt);
     
-    //Query to update to the selected posted
-    $query = "UPDATE posts SET ";
-    $query .= "post_category_id = '{$post_category_id}', ";
-    $query .= "post_title = '{$post_title }', ";
-    $query .= "post_user = '{$post_user}', ";
-    $query .= "post_date = now(), ";
-    $query .= "post_image = '{$post_image}', ";
-    $query .= "post_content = '{$post_content}', ";
-    $query .= "post_tags = '{$post_tags}', ";
-    $query .= "post_status = '{$post_status}' ";
-    $query .= "WHERE post_id = '{$post_id}'";
-    
-    
-    $update_post = mysqli_query($connection,$query);
-    
-    confirmQuery($update_post);
     
      echo "<div class='alert alert-success'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>Post Updated: " . "<a href='../post.php?p_id={$the_post_id}' class='alert-link'>{$post_title}</a> or <a href='posts.php' class='alert-link'>Edit more posts</a></div>";
     
 }
 
-
-//Reset the number of views on each post
-if(isset($_POST['reset_views'])){ 
-    
-    //Making sure only admin users can delete posts
-    if(isset($_SESSION['user_role'])){
-        
-        if($_SESSION['user_role'] == 'admin'){
-            
-    $query = "UPDATE posts SET post_views_count = '0' WHERE post_id = '{$post_id}'";
-    
-     $update_post_views = mysqli_query($connection,$query);
-     confirmQuery($update_post);
-        }
-    }
-    
-}
-
-
 ?>   
-          
+    
+
   
 <form action="" method="post" enctype="multipart/form-data">
 
@@ -110,7 +83,7 @@ if(isset($_POST['reset_views'])){
 </div>
 
 <div class="form-group">
-    <label for="title">Categories</label>
+    <label for="title">Categories: </label>
     <select name="post_category" id="">    
         <?php
         //Obtain categories from database 
@@ -142,7 +115,7 @@ if(isset($_POST['reset_views'])){
 
 
  <div class="form-group">
-   <label for="users">Users</label>
+   <label for="users">Users: </label>
     <select name="post_user" id="">
     <?php echo "<option value='$post_user'>{$post_user}</option>"?>
         <?php
@@ -166,7 +139,7 @@ if(isset($_POST['reset_views'])){
    </div> 
 
 <div class="form-group">
-<!-- <label for="title">Post Status</label><br>-->
+ <label for="title">Post Status: </label>
  <select name="post_status" id=""> 
      <option value="<?php echo $post_status; ?>"><?php echo $post_status; ?></option>
         <!--  Giving the user the chance to choose between roles  -->
@@ -221,3 +194,5 @@ if(isset($_POST['reset_views'])){
 </div>
 
 </form>
+
+<?php ?>

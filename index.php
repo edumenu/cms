@@ -30,6 +30,7 @@
               <img src="images/php.png" alt="bootstrap" width="20%" height="20%">
               <img src="images/bootstrap.png" alt="bootstrap" width="20%" height="20%">
               <img src="images/javascript.png" alt="bootstrap" width="10%" height="10%">
+              <img src="images/HTML5.png" alt="bootstrap" width="13%" height="10%">
               
             </div>
             <div class="modal-footer">
@@ -74,9 +75,17 @@
                     
                 }
                 
-            
+                if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'){
                 
-                $select_query_count = "SELECT * FROM posts WHERE post_status = 'published'"; 
+                //Count all drafts and published posts
+                 $select_query_count = "SELECT * FROM posts";
+                    
+                }else{
+                    
+                    //Count only published
+                    $select_query_count = "SELECT * FROM posts WHERE post_status = 'published'";
+                } 
+                 
                 $find_count = mysqli_query($connection,$select_query_count);
                 //Counting the number of rows int he table
                 $count = mysqli_num_rows($find_count);
@@ -88,7 +97,18 @@
                 $count = ceil($count / 5);
                 
                 //Display the number of posts based on the value of $page_1
-                $query = "SELECT * FROM posts WHERE post_status = 'published' LIMIT $page_1,5";
+                    
+                if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'){
+                
+                //View all drafts and published posts
+                 $query = "SELECT * FROM posts LIMIT $page_1,5";
+                    
+                }else{
+                    
+                    //View only published
+                    $query = "SELECT * FROM posts WHERE post_status = 'published' LIMIT $page_1,5";
+                }    
+                    
                  $select_all_posts_query = mysqli_query($connection,$query);
                   
                 //Print out data obtained from posts database

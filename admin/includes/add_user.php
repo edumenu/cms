@@ -17,15 +17,17 @@
     //Second parameter = algorithm
     //cost is the amount of time it takes a function to give you a new hash
      $user_password = password_hash( $user_password, PASSWORD_BCRYPT, array('cost' => 12));
+
+       $stmt = mysqli_prepare($connection, "INSERT INTO users(username, user_password, user_firstname, user_lastname, user_email, user_role) VALUES(?,?,?,?,?,?)");
+        mysqli_stmt_bind_param($stmt, "ssssss", $username, $user_password, $user_firstname, $user_lastname, $user_email, $user_role);
+        mysqli_stmt_execute($stmt);
+
+        confirmQuery($stmt);
+            
+        mysqli_stmt_close($stmt);
      
      
-     $query = "INSERT INTO users(username, user_password, user_firstname, user_lastname, user_email, user_role) ";
      
-     $query .= "VALUES('{$username}','{$user_password}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_role}')";
-     
-     $create_user_query = mysqli_query($connection, $query);
-     
-     confirmQuery($create_user_query);
      
      echo "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
      User created: <a href='users.php' class='alert-link'>{$user_firstname} {$user_lastname} </a></div>";

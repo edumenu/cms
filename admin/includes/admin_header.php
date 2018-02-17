@@ -1,5 +1,5 @@
 <?php ob_start();?>
-<?php session_start();?>
+<?php session_start(); ?>
 <?php include "admin_db.php" ?>
 <?php include "functions.php" ?>
 <!-- Checking if the user has an admin role or not -->

@@ -30,41 +30,15 @@
         echo "<td>$user_id</td>";
         echo "<td>$username</td>";
         echo "<td>$user_firstname</td>";
-        
-        
-        
-//        $query = "SELECT * FROM categories WHERE cat_id = {$post_category_id} ";
-//        $select_categories_id = mysqli_query( $connection, $query);
-//
-//        while($row = mysqli_fetch_assoc($select_categories_id)){
-//        $cat_id = $row['cat_id'];
-//        $cat_title = $row['cat_title'];
-//        
-//        
-//        
-//        echo "<td>{$cat_title}</td>";
-//            
-//        }
-        
         echo "<td>$user_lastname</td>";
         echo "<td>$user_email</td>";
         echo "<td>$user_role</td>";
+        echo "<td><a class='btn btn-success' href='users.php?change_to_admin=$user_id'>Admin</<a></td>";
+        echo "<td><a class='btn btn-success' href='users.php?change_to_sub=$user_id'>Subscriber</<a></td>";
+        echo "<td><a class='btn btn-primary' href='users.php?source=edit_user&edit_user=$user_id'>Edit</<a></td>";
+        echo "<td><a id='$user_firstname' rel='$user_id,$user_firstname' href='javascript:void(0)' class='btn btn-danger delete_link'>Delete</a></td>"; //it the result is undefined, the browser stays on the same page
         
-//        $query = "SELECT * FROM posts WHERE post_id = $comment_post_id ";
-//        $select_post_id_query = mysqli_query($connection, $query);
-//        while($row = mysqli_fetch_assoc($select_post_id_query)){
-//            $post_id = $row['post_id'];
-//            $post_title = $row['post_title'];
-//        
-//        
-//        echo "<td><a href='../post.php?p_id=$post_id'>$post_title</a></td>";
-//        
-//        }
-        
-        echo "<td><a href='users.php?change_to_admin=$user_id'>Admin</<a></td>";
-        echo "<td><a href='users.php?change_to_sub=$user_id'>Subscriber</<a></td>";
-        echo "<td><a href='users.php?source=edit_user&edit_user=$user_id'>Edit</<a></td>";
-        echo "<td><a onClick=\"javascript: return confirm('Are you sure?'); \" href='users.php?delete=$user_id'>Delete</<a></td>";
+//        echo "<td><a onClick=\"javascript: return confirm('Are you sure?'); \" href='users.php?delete=$user_id'>Delete</<a></td>";
         echo "</tr>";
     }
 
@@ -85,12 +59,16 @@ if(isset($_GET['change_to_admin'])){
       if($_SESSION['user_role'] == 'admin'){
     
     $the_user_id = escape($_GET['change_to_admin']);
+//    
+//    $query = "UPDATE users SET user_role = 'admin' WHERE user_id = $the_user_id ";
+//    $change_admin_query = mysqli_query($connection,$query);
+          
+    $stmt = mysqli_prepare($connection, "UPDATE users SET user_role = 'admin' WHERE user_id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $the_user_id);
+    mysqli_stmt_execute($stmt);
+    //Checking for errors
+    confirmQuery($stmt);
     
-    $query = "UPDATE users SET user_role = 'admin' WHERE user_id = $the_user_id ";
-    $change_admin_query = mysqli_query($connection,$query);
-    if(!$change_admin_query){
-      die("Query Failed!" . mysqli_error($connection));
-    }
     header("Location: users.php"); //This will refresh the page
             
       }
@@ -110,11 +88,10 @@ if(isset($_GET['change_to_sub'])){
     
     $the_user_id = escape($_GET['change_to_sub']);
     
-    $query = "UPDATE users SET user_role = 'subscriber' WHERE user_id = $the_user_id ";
-    $change_sub_query = mysqli_query($connection,$query);
-    if(!$change_sub_query){
-      die("Query Failed!" . mysqli_error($connection));
-    }
+     $stmt = mysqli_prepare($connection, "UPDATE users SET user_role = 'subscriber' WHERE user_id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $the_user_id);
+    mysqli_stmt_execute($stmt);
+            
     header("Location: users.php"); //This will refresh the page
             
         }
@@ -125,19 +102,21 @@ if(isset($_GET['change_to_sub'])){
 
 
 //Delete link by each comment
-if(isset($_GET['delete'])){
+if(isset($_POST['delete'])){
     
     //Making sure only admin users can delete users
     if(isset($_SESSION['user_role'])){
         
         if($_SESSION['user_role'] == 'admin'){
+
+          $the_user_id =  escape($_POST['user_id']);
+
+        $stmt = mysqli_prepare($connection, "DELETE FROM users WHERE user_id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $the_user_id);
+        mysqli_stmt_execute($stmt);
+        //Checking for errors
+        confirmQuery($stmt);         
             
-    $the_user_id =  mysqli_real_escape_string($connection, $_GET['delete']);
-    
-    $the_user_id = $_GET['delete'];
-    
-    $query = "DELETE FROM users WHERE user_id = {$the_user_id}";
-    $delete_query = mysqli_query($connection,$query);
     header("Location: users.php"); //This will refresh the page
             
         }
@@ -149,6 +128,62 @@ if(isset($_GET['delete'])){
 
 ?>
 
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+<div class="modal-dialog modal-sm">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm deletion</h4>
+      </div>
+      <div class="modal-body">
+        <h3 class="text-center">Are you sure you want to delete <b><span id="name" value=""></span></b>?</h3>
+      </div>
+      <div class="modal-footer">        
+          
+     <form method="post">
+         
+             <button type="button" class="btn btn-default pull right" data-dismiss="modal">Cancel</button>  
+            
+            <input id="modal_delete_link" type="hidden" name="user_id" value="" >
+            
+            <button type='submit' name='delete' value='Delete' class='btn btn-danger'>Delete</button>
+         
+     </form> 
+          
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+//Adding a modal to to the delete link
+$(document).ready(function(){
+    
+    $(".delete_link").on('click', function(){
+
+        var id = $(this).attr("rel");  //Obtaining the post id from rel attribute
+        var name = $(this).attr("id");
+        
+        $("#myModal").modal('show');  //Display the modal
+        
+        //Displaying the user's name to be deleted
+        document.getElementById('name').innerHTML = name;
+        document.getElementById('modal_delete_link').setAttribute("value",id);  //Set post id to the attribute value 
+        
+        
+    });
+    
+});
+
+</script>
 
 
 

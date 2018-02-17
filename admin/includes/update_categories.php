@@ -30,21 +30,28 @@
 
     if(isset($_POST['update_category'])) {
         
-         //Making sure only admin users can delete users
+    //Making sure only admin users can edit categories
     if(isset($_SESSION['user_role'])){
         
         if($_SESSION['user_role'] == 'admin'){
 
         $the_cat_title = escape($_POST['cat_title']); // This needs to be cat_title,becase that's the name of the text field in the dynamic input field created above.
 
-        $query = "UPDATE categories SET cat_title = '{$the_cat_title}' WHERE cat_id = {$cat_id} ";
-        $update_query = mysqli_query($connection, $query);
+        $stmt = mysqli_prepare($connection, "UPDATE categories SET cat_title = ? WHERE cat_id = ? ");
+        mysqli_stmt_bind_param($stmt, "si", $the_cat_title, $cat_id);
+        mysqli_stmt_execute($stmt);
 
-        if(!$update_query ){
-
-            die("QUERY FAILED" . mysqli_error($connection));
-
-        }
+        confirmQuery($stmt);
+            
+        mysqli_stmt_close($stmt);    
+            
+        redirect("categories.php");
+            
+//        if(!$stmt){
+//
+//            die("QUERY FAILED" . mysqli_error($connection));
+//
+//        }
             
         }
     }
