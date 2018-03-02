@@ -11,6 +11,7 @@
         </button>
         <a class="navbar-brand" href="index.php">CMS Admin</a>
     </div>
+    
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
        <li><a href="../index.php">Home Site</a></li>
@@ -32,7 +33,6 @@
             </ul>
         </li>
     </ul>
-
 
     <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">

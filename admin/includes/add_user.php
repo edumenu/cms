@@ -9,25 +9,23 @@
      $user_email = escape($_POST['user_email']);
      $user_password = escape($_POST['user_password']);
      
-    //Escaping special characters in a string
+    //Escaping special characters in a string. Same as escape function
     $username = mysqli_real_escape_string($connection, $username);
     $user_password = mysqli_real_escape_string($connection, $user_password);
      
+    //creates a new password hash using a strong one-way hashing algorithm 
     //first parameter = password
     //Second parameter = algorithm
-    //cost is the amount of time it takes a function to give you a new hash
+    //cost is the amount of time it takes a function to produce a new hash
      $user_password = password_hash( $user_password, PASSWORD_BCRYPT, array('cost' => 12));
 
-       $stmt = mysqli_prepare($connection, "INSERT INTO users(username, user_password, user_firstname, user_lastname, user_email, user_role) VALUES(?,?,?,?,?,?)");
-        mysqli_stmt_bind_param($stmt, "ssssss", $username, $user_password, $user_firstname, $user_lastname, $user_email, $user_role);
-        mysqli_stmt_execute($stmt);
+     $stmt = mysqli_prepare($connection, "INSERT INTO users(username, user_password, user_firstname, user_lastname, user_email, user_role) VALUES(?,?,?,?,?,?)");
+     mysqli_stmt_bind_param($stmt, "ssssss", $username, $user_password, $user_firstname, $user_lastname, $user_email, $user_role);
+     mysqli_stmt_execute($stmt);
 
-        confirmQuery($stmt);
-            
-        mysqli_stmt_close($stmt);
-     
-     
-     
+     confirmQuery($stmt);
+
+     mysqli_stmt_close($stmt);
      
      echo "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
      User created: <a href='users.php' class='alert-link'>{$user_firstname} {$user_lastname} </a></div>";
@@ -35,9 +33,6 @@
  }
 
 ?>
-
-
-
 
 <form action="" method="post" enctype="multipart/form-data">
    
@@ -52,21 +47,15 @@
     </div>
     
     <div class="form-group">
+        
     <select name="user_role" id="">
     <option value="subscriber">Select options</option>
     <option value="admin">Admin</option>
     <option value="subscriber">Subscriber</option>
           
-
     </select>
+        
     </div> 
-    
-<!--
-    <div class="form-group">
-        <label for="title"></label>
-          <input type="file" name="image">
-    </div>
--->
     
     <div class="form-group">
         <label for="title">Username</label>

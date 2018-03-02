@@ -1,4 +1,4 @@
-<?php ob_start();?>
+<?php ob_start();?> <!-- Output buffering -->
 <?php
 
 error_reporting(E_ALL);
@@ -17,7 +17,6 @@ foreach($db as $key => $value){
     define(strtoupper($key), $value);
     
 }
-
 
 $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 

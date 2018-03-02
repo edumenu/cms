@@ -1,6 +1,4 @@
 <?php
-
-
 //Obtaining values from each form
  if(isset($_POST['create_post'])){
    
@@ -21,41 +19,22 @@
      //This function will move the uploaded image from the temp location to the location we want 
      move_uploaded_file($post_image_temp, "../images/$post_image");
      
-     
-//     $query = "INSERT INTO posts(post_category_id,post_title, post_user, post_date, post_image, post_content, post_tags, post_status) ";
-//     
-//     $query .= "VALUES({$post_category_id},'{$post_title}','{$post_user}',now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}')";
-//     
-//     $create_post_query = mysqli_query($connection, $query);
-//     
-//     confirmQuery($create_post_query);
-     
-     
+     //used to execute the same (or similar) SQL statements repeatedly with high efficiency
+     //mysqli_prepare for more security
      $stmt = mysqli_prepare($connection, "INSERT INTO posts(post_category_id, post_title, post_user, post_date, post_image, post_content, post_tags, post_status) VALUES(?,?,?,?,?,?,?,?)");
-//     $date = now();
-        mysqli_stmt_bind_param($stmt, "isssssss", $post_category_id, $post_title, $post_user, $post_date, $post_image, $post_content, $post_tags, $post_status);
-        mysqli_stmt_execute($stmt);
+     
+    mysqli_stmt_bind_param($stmt, "isssssss", $post_category_id, $post_title, $post_user, $post_date, $post_image, $post_content, $post_tags, $post_status);
+    mysqli_stmt_execute($stmt);
 
-        confirmQuery($stmt);
-            
-        mysqli_stmt_close($stmt);
-     
-     
-     
-     
-     
-     
-     
-     //This function will return the last created title in the table 
-     //$post_title = mysqli_insert_id($connection);
+    confirmQuery($stmt);
+
+    mysqli_stmt_close($stmt);
      
      echo "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
      {$post_title} has been added successfully!</div>";
      
  }
-
 ?>
-
 
 
 <form action="" method="post" enctype="multipart/form-data">
@@ -66,28 +45,28 @@
     </div>
     
     <div class="form-group">
-    <label for="title">Categories</label>
-    <select name="post_category" id="">
-           
-        <?php
+      <label for="title">Categories</label>
+        <select name="post_category" id="">
 
-        $query = "SELECT * FROM categories";
-        $select_categories = mysqli_query($connection, $query);
-        
-        confirmQuery($select_categories);
+            <?php
+           //Displaying categoreis from the database
+            $query = "SELECT * FROM categories";
+            $select_categories = mysqli_query($connection, $query);
 
-        while($row = mysqli_fetch_assoc($select_categories)){
-        $cat_id = $row['cat_id'];
-        $cat_title = $row['cat_title'];
-           
-         echo "<option value='$cat_id'>{$cat_title}</option>";
-            
-        }
+            confirmQuery($select_categories);
 
-        ?>
+            while($row = mysqli_fetch_assoc($select_categories)){
+            $cat_id = $row['cat_id'];
+            $cat_title = $row['cat_title'];
 
-    </select>
-</div> 
+             echo "<option value='$cat_id'>{$cat_title}</option>";
+
+            }
+
+            ?>
+
+        </select>
+    </div> 
    
    <div class="form-group">
    <label for="users">Users</label>
@@ -112,13 +91,6 @@
 
     </select>
    </div> 
-    
-<!--
-    <div class="form-group">
-        <label for="title">Post Author</label>
-          <input type="text" class="form-control" name="author">
-    </div>
--->
     
     <div class="form-group">
         <label for="post_status">Post Status</label><br>

@@ -7,8 +7,6 @@ if(isset($_GET['p_id'])){
     
 }
 
-
-//Find all categories query
 $stmt = mysqli_prepare($connection, "SELECT post_id, post_category_id, post_title, post_user, post_date, post_image, post_content, post_tags, post_comment_count, post_status FROM posts WHERE post_id = ?");
 
 //Checking for errors

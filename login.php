@@ -22,8 +22,6 @@
 			}
 
 		}
-
-
 ?>
 
 
@@ -67,9 +65,12 @@
 									</div>
 
 									<div class="form-group">
-
 										<input name="login" class="btn btn-lg btn-success btn-block" value="Login" type="submit">
 									</div>
+                                    
+                                    <div class="form-group">
+                                    <a href="forgot.php?forgot=<?php echo uniqid(true); ?>">Forgot password</a>
+                                    </div>
 
 
 								</form>

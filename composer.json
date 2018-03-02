@@ -1,0 +1,14 @@
+{
+    "name": "dume/cms_2",
+    "require": {
+        "phpmailer/phpmailer": "^6.0",
+        "pusher/pusher-php-server": "^3.0",
+        "vlucas/phpdotenv": "^2.4"
+    },
+    "authors": [
+        {
+            "name": "Edem Dumenu",
+            "email": "ehdemdume@gmail.com"
+        }
+    ]
+}

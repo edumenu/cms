@@ -5,21 +5,21 @@
         <h4>View project on github: <a class="btn btn-primary" href="https://github.com/edumenu/cms" target="_blank">Github</a></h4>
    </div> 
                 
-                <!-- Blog Search Well -->
-                <div class="well">
-                    <h4>Blog Search</h4>
-                <form action="search.php" method="post">
-                    <div class="input-group">
-                        <input name="search" type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button name="submit" class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        </span>
-                    </div>
-                    </form> <!-- Search from -->
-                    <!-- /.input-group -->
-                </div>
+        <!-- Blog Search Well -->
+        <div class="well">
+            <h4>Blog Search</h4>
+        <form action="search.php" method="post">
+            <div class="input-group">
+                <input name="search" type="text" class="form-control">
+                <span class="input-group-btn">
+                    <button name="submit" class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                </button>
+                </span>
+            </div>
+            </form> <!-- Search from -->
+            <!-- /.input-group -->
+        </div>
                 
                 
        <!-- Login -->
@@ -43,21 +43,6 @@
        <?php else: ?>
        
        <h4>Login: <a href="login.php" class="btn btn-success">Login</a> </h4>
-<!--
-           <form action="includes/login.php" method="post">
-                <div class="form-group">
-                    <input name="username" type="text" class="form-control" placeholder="Enter Username">
-                </div>
-
-                   <div class="input-group">
-                    <input name="password" type="password" class="form-control" placeholder="Enter Password">
-                    <span class="input-group-btn">
-                        <button class="btn btn-danger" name="login" type="submit">Submit</button>
-                    </span>
-                </div>
-            </form>
--->
-        <!-- /.input-group -->
        
        <?php endif; ?>
        
@@ -137,41 +122,41 @@
 </div>
 </div>        
                      
-                <!-- Blog Categories Well -->
-                <div class="well">
-                   
+    <!-- Blog Categories Well -->
+    <div class="well">
+
+       <?php
+
+    //Selecting data from the categories table in the cms database
+    $query = "SELECT * FROM categories";
+    $select_categories_sidebar = mysqli_query($connection,$query);
+
+        ?>
+
+        <h4>Blog Categories</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-unstyled">
+
                    <?php
-                    
-                //Selecting data from the categories table in the cms database
-                $query = "SELECT * FROM categories";
-                $select_categories_sidebar = mysqli_query($connection,$query);
- 
+
+                    while($row = mysqli_fetch_assoc($select_categories_sidebar)){
+                    $cat_id = $row['cat_id'];
+                    $cat_title = $row['cat_title'];
+
+                    echo "<li> <a href='category.php?category=$cat_id&title=$cat_title'>{$cat_title}</a> </li>";
+
+                    }
+
                     ?>
-                    
-                    <h4>Blog Categories</h4>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <ul class="list-unstyled">
-                               
-                               <?php
-                                
-                                while($row = mysqli_fetch_assoc($select_categories_sidebar)){
-                                $cat_id = $row['cat_id'];
-                                $cat_title = $row['cat_title'];
 
-                                echo "<li> <a href='category.php?category=$cat_id&title=$cat_title'>{$cat_title}</a> </li>";
+                </ul>
+            </div>
 
-                                }
 
-                                ?>
-                               
-                            </ul>
-                        </div>
-                 
-                        
-                    </div>
-                    <!-- /.row -->
-                </div>
+        </div>
+        <!-- /.row -->
+    </div>
           
 
                 <!-- Side Widget Well -->

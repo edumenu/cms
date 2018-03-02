@@ -139,62 +139,94 @@
         $subscriber_count = checkUserRole('users','user_role', 'subscriber');
                         
 
-        ?>  
+        ?>     
                 
-                
-                
-                
-<!--  Graph displaying the Posts, Categories, Users and Comments  -->
-<div class="row">
+    <!--  Graph displaying the Posts, Categories, Users and Comments  -->
+    <div class="row">
 
-    <script type="text/javascript">
-    google.charts.load('current', {'packages':['bar']});
-    google.charts.setOnLoadCallback(drawChart);
+        <script type="text/javascript">
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Data', 'Count'],
-            
-        <?php
-        $element_text = ['All Posts','Active Posts','Draft Posts', 'Comments', 'Pending Comments', 'Users', 'Subscribers', 'Categories'];
-        $element_count = [$post_count,$post_published_count, $post_draft_count, $comment_count, $unapproved_comments, $users_count, $subscriber_count,$categories_count];
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Data', 'Count'],
 
-        for($i=0; $i < 8; $i++){
-            
-        echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
-            
+            <?php
+            $element_text = ['All Posts','Active Posts','Draft Posts', 'Comments', 'Pending Comments', 'Users', 'Subscribers', 'Categories'];
+            $element_count = [$post_count,$post_published_count, $post_draft_count, $comment_count, $unapproved_comments, $users_count, $subscriber_count,$categories_count];
+
+            for($i=0; $i < 8; $i++){
+
+            echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
+
+            }
+
+            ?>
+
+            ]);
+
+            var options = {
+              chart: {
+                title: '',
+                subtitle: '',
+              }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
         }
+        </script>
 
 
-
-        ?>
- 
-        ]);
-
-        var options = {
-          chart: {
-            title: '',
-            subtitle: '',
-          }
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-    }
-    </script>
-
-
-<div id="columnchart_material" style="width: 'auto'; height: 500px;"></div>      
-
-</div>
-<!-- / Graph -->
-
-  
-                
+    <div id="columnchart_material" style="width: 'auto'; height: 500px;"></div>      
 
     </div>
-    <!-- /.container-fluid -->
+    <!-- / Graph -->        
+
+</div>
+<!-- /.container-fluid -->
             
             
-         <?php include "includes/admin_footer.php"; ?>
+ <?php include "includes/admin_footer.php"; ?>
+    
+<!-- Toastr.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+
+<!-- Toastr.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+   
+<!-- Pusher -->
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>   
+    
+    
+<script>
+    
+$(document).ready(function(){
+    
+  var pusher = new Pusher('b35b81bb53e919adf2a3', {
+      
+      cluster: 'us2',
+      encrypted: true
+      
+  });
+  
+  //Subscribing to the channel notification
+  var notificationChannel = pusher.subscribe('notifications'); 
+
+      
+  notificationChannel.bind('new_user', function(data){
+      
+      var message = data.message;
+      
+      toastr .success(`${message} just registered`);
+      
+//       console.log(message);
+      
+  });
+    
+    
+});    
+    
+</script>

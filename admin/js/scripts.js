@@ -37,7 +37,7 @@ $('#load-screen').delay(400).fadeOut(600,function(){
    
 function loadUsersOnline(){
 //
-$.get("functions.php?onlineusers=result", function(data){
+$.get("/new_website/cms_2/admin/functions.php?onlineusers=result", function(data){
     
  $(".usersonline").text(data);
     

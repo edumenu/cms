@@ -5,7 +5,12 @@
 
 <?php
 
+// Import PHPMailer classes into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+//Load composer's autoloader
 require './vendor/autoload.php';
+//Add the config class
+require './classes/Config.php';
 
     if(!isset($_GET['forgot'])){
 
@@ -15,18 +20,17 @@ require './vendor/autoload.php';
 
 
     if(ifItIsMethod('post')){
-
+        //Obtaining the email from the form 
         if(isset($_POST['email'])) {
 
             $email = $_POST['email'];
 
             $length = 50;
-
+            //This function converts a string of ASCII to hexadecimal 
             $token = bin2hex(openssl_random_pseudo_bytes($length));
 
 
             if(email_exists($email)){
-
 
                 if($stmt = mysqli_prepare($connection, "UPDATE users SET token='{$token}' WHERE user_email= ?")){
 
@@ -34,38 +38,31 @@ require './vendor/autoload.php';
                     mysqli_stmt_execute($stmt);
                     mysqli_stmt_close($stmt);
 
-
-
                     /**
-                     *
                      * configure PHPMailer
-                     *
-                     *
                      */
 
                     $mail = new PHPMailer();
 
-                    $mail->isSMTP();
-                    $mail->Host = Config::SMTP_HOST;
-                    $mail->Username = Config::SMTP_USER;
-                    $mail->Password = Config::SMTP_PASSWORD;
+                    $mail->isSMTP();            //Set mailer to use SMTP
+                    $mail->Host = Config::SMTP_HOST;    //Specify main and backup SMTP servers       
+                    $mail->Username = Config::SMTP_USER;    //SMTP username
+                    $mail->Password = Config::SMTP_PASSWORD; //SMTP password
                     $mail->Port = Config::SMTP_PORT;
-                    $mail->SMTPSecure = 'tls';
-                    $mail->SMTPAuth = true;
-                    $mail->isHTML(true);
+                    $mail->SMTPSecure = 'tls';       //Enable TLS encryption, ssl also accepted
+                    $mail->SMTPAuth = true;    // Enable SMTP authentication
+                    $mail->isHTML(true);       // Set email format to HTML
                     $mail->CharSet = 'UTF-8';
 
 
-                    $mail->setFrom('edwin@codingfaculty.com', 'Edwin Diaz');
+                    $mail->setFrom('edumenu@liberty.edu', 'Edem Dumenu');
                     $mail->addAddress($email);
 
                     $mail->Subject = 'This is a test email';
 
                     $mail->Body = '<p>Please click to reset your password
 
-                    <a href="http://localhost:8888/cms/reset.php?email='.$email.'&token='.$token.' ">http://localhost:888/cms/reset.php?email='.$email.'&token='.$token.'</a>
-
-
+                    <a href="http://localhost/new_website/cms_2/reset.php?email='.$email.'&token='.$token.' ">http://localhost/new_website/cms_2/reset.php?email='.$email.'&token='.$token.'</a>
 
                     </p>';
 
@@ -80,33 +77,20 @@ require './vendor/autoload.php';
 
                     }
 
-
-
-
-
                 }
 
-
-
-
             }
-
-
-
 
         }
 
 
      }
-
-
-
-
-
 ?>
 
 
+<!-- Navigation -->
 
+<?php  include "includes/navigation.php"; ?>
 
 
 
@@ -132,7 +116,6 @@ require './vendor/autoload.php';
 
 
 
-
                                     <form id="register-form" role="form" autocomplete="off" class="form" method="post">
 
                                         <div class="form-group">
@@ -153,7 +136,7 @@ require './vendor/autoload.php';
                             <?php else: ?>
 
 
-                                <h2>Please check your email</h2>
+                                <div class="alert alert-success"><strong>Please check your email!</strong></div>
 
 
                             <?php endIf; ?>

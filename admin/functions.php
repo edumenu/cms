@@ -243,6 +243,18 @@ function email_exists($email){
     
 }
 
+function imagePlaceholder($image=''){
+    
+    if(!$image){
+        
+        return 'placeholder.gif';
+        
+    }else{
+        return $image;
+    }
+    
+}
+
 //A function to redirect user to a different page
 function redirect($location){
     

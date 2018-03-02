@@ -1,5 +1,23 @@
 <?php  include "includes/db.php"; ?>
 <?php  include "includes/header.php"; ?>
+
+<?php 
+
+require 'vendor/autoload.php';
+
+$dotenv = new \Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
+$options = array(
+    'cluster' => 'us2',
+    'encrypted' => true
+  );
+
+//Importing the pusher package
+//Using the getenv to retreive variables
+$pusher = new Pusher\Pusher(getenv('APP_KEY'),getenv('APP_SECRET'),getenv('APP_ID'),$options);
+
+?>
  
  <?php
 
@@ -69,14 +87,16 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
         //Loging in the user after registration
 //          login_user($username, $password);
+        $data['message'] = $username;
+        $pusher->trigger('notifications', 'new_user', $data);
+        
 
     }
     
 }
 ?>
 
-    <!-- Navigation -->
-    
+    <!-- Navigation -->   
     <?php  include "includes/navigation.php"; ?>
     
  
@@ -98,8 +118,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                             value="<?php echo isset($username) ? $username : ''?>">
                             
                             <p><?php echo isset($error['username']) ? $error['username'] : ''?></p>
-                            
-<!--<div class='alert alert-danger'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>-->
                             
                         </div>
                         

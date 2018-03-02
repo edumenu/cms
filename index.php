@@ -1,3 +1,9 @@
+<!--Author: Edem Dumenu
+Creation: 12-25-2017
+updated:  02-22-2018
+Development Team: Edem Dumenu
+Description: This is the main page which is responsible for displaying all posts created by uses. This page receives data from the database using PHP-->
+
 <?php include "includes/db.php";?>
 <?php include "includes/header.php";?>
         <!-- Navigation  -->   
@@ -40,7 +46,7 @@
 
         </div>
       </div>
-<!--    </div>   -->
+     <!-- End of modal -->
 
         <div class="row">
 
@@ -50,12 +56,10 @@
                 
                 <?php
                 
-                
                 //Checking for a GET request called page and assigning it to a variable
+                //Checking to see a variable is set
                 if(isset($_GET['page'])){
                     
-                    
-
                 $page = mysqli_real_escape_string($connection, $_GET['page']);
 
                 }else{
@@ -68,9 +72,8 @@
                     
                     $page_1 = 0;
                     
-                    
                 }else{
-                    //If page is greater than 1 multiple ny 5 and substract by 5
+                    //If page is greater than 1 multiple by 5 and substract by 5
                     $page_1 = ($page * 5 ) - 5;
                     
                 }
@@ -82,7 +85,7 @@
                     
                 }else{
                     
-                    //Count only published
+                    //Count only published posts
                     $select_query_count = "SELECT * FROM posts WHERE post_status = 'published'";
                 } 
                  
@@ -97,19 +100,17 @@
                 $count = ceil($count / 5);
                 
                 //Display the number of posts based on the value of $page_1
-                    
                 if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'){
                 
                 //View all drafts and published posts
                  $query = "SELECT * FROM posts LIMIT $page_1,5";
                     
                 }else{
-                    
                     //View only published
                     $query = "SELECT * FROM posts WHERE post_status = 'published' LIMIT $page_1,5";
                 }    
                     
-                 $select_all_posts_query = mysqli_query($connection,$query);
+                $select_all_posts_query = mysqli_query($connection,$query);
                   
                 //Print out data obtained from posts database
                 //this function fecthes a row from the database as 
@@ -135,27 +136,22 @@
                 </h2>
                 <p class="lead">by 
                 <!-- The author of the post -->
-                <a href="author_post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_author?></a>
+                <a href="author_post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_author?></a> 
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date?></p> <!-- The date of the post -->
                 <hr>
                 <a href="post.php?p_id=<?php echo $post_id?>">
-                <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
+                <img class="img-responsive" src="images/<?php echo imagePlaceholder($post_image) ?>" alt="">
                 </a>
                 <hr>
                 <!-- The content of the post -->
                 <p><?php echo $post_content?></p>
                 <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-                
-                
-
                 <hr>
                    
             <?php  }  }?>
 
-
             </div>
-            
             
         <!-- Blog sidebar widgets columns -->
             <?php include "includes/sidebar.php"?>
@@ -165,14 +161,14 @@
         
         <hr>
         
+        <!-- Pager -->
         <ul class="pager">
             
         <?php
        //Pagination    
-    
         for($i = 1; $i <= $count; $i++){
             
-         //Adding 
+         //Printing out the number of posts based on the page number 
          if($i == $page){
              
              echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
@@ -188,7 +184,6 @@
          }
         
         }    
-            
             
         ?>    
             
