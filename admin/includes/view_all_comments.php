@@ -51,7 +51,6 @@
         
         mysqli_stmt_close($stmt);
         
-        
         echo "<td>$comment_date</td>";
         echo "<td><a href='comments.php?approved=$comment_id'>Approved</<a></td>";
         echo "<td><a href='comments.php?unapproved=$comment_id'>Unapproved</<a></td>";
@@ -66,8 +65,7 @@
 
 <?php
 
-
-//
+//Update a comment to unapproved
 if(isset($_GET['unapproved'])){
     
      //Making sure only admin users can delete users
@@ -85,11 +83,9 @@ if(isset($_GET['unapproved'])){
     header("Location: comments.php"); //This will refresh the page
         }
     }
-    
 }
 
-
-//
+//Update a comment to approved
 if(isset($_GET['approved'])){
     
      //Making sure only admin users can delete users
@@ -106,10 +102,8 @@ if(isset($_GET['approved'])){
             
     header("Location: comments.php"); //This will refresh the page
         }
-    }
-    
+    }   
 }
-
 
 //Delete link by each comment
 if(isset($_GET['delete'])){
@@ -130,17 +124,4 @@ if(isset($_GET['delete'])){
         }
     }
 }
-
-
 ?>
-
-
-
-
-
-
-
-
-
-
-

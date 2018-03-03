@@ -16,7 +16,6 @@
     <ul class="nav navbar-right top-nav">
        <li><a href="../index.php">Home Site</a></li>
         <!-- Number of users online -->
-         <!--  <li><a href="" style="color:green">Users Online: <?php// echo users_online(); ?></a></li> -->
 
          <li><a href="" style="color: green">Users Online: <span class="usersonline"></span></a></li>
 

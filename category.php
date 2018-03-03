@@ -1,8 +1,7 @@
 <?php include "includes/db.php";?>
 <?php include "includes/header.php";?>
    
-   
-        <!-- Navigation  -->   
+    <!-- Navigation  -->   
 <?php include "includes/navigation.php";?>
    
    
@@ -12,8 +11,7 @@
         <div class="row">
 
             <!-- Blog Entries Column -->
-            
-            
+              
             <div class="col-md-8">
                 
                 <?php
@@ -76,7 +74,6 @@
                     <?php 
                         echo $post_category_title;   
                        ?>
-<!--                    <small>Secondary Text</small>-->
                 </h1>
 
                 <!-- First Blog Post -->
@@ -104,7 +101,6 @@
                     header("Location: index.php");
                 }
                  ?>
-
 
             </div>
             

@@ -10,9 +10,7 @@
     <div class="container">
 
         <div class="row">
-
             <!-- Blog Entries Column -->
-            
             
             <div class="col-md-8">
                 
@@ -34,12 +32,8 @@
                 if($count == 0){
                     echo "<h1> No Result</h1>";
                 }else{
-
-                  
     
                 while(mysqli_stmt_fetch($stmt)){
-
-                    
                 ?>
                    
                    <h1 class="page-header">
@@ -70,8 +64,7 @@
 
                 }
                 
-            }    
-                
+            }       
   ?>
 
             </div>

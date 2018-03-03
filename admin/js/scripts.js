@@ -1,5 +1,3 @@
-
-
 $(document).ready(function() {
     
 //Selecting check boxes    
@@ -22,7 +20,6 @@ $('#selectAllBoxes').click(function(event){
     });
     
     
-    
 //This is adding a loading screen to the pages 
 var div_box = "<div id='load-screen'><div class='loader'></div></div>";    
 
@@ -31,9 +28,7 @@ $("body").prepend(div_box);
 $('#load-screen').delay(400).fadeOut(600,function(){
  $(this).remove();                             
 });
-    
-    
-    
+
    
 function loadUsersOnline(){
 //
@@ -52,8 +47,5 @@ setInterval(function(){
     loadUsersOnline(); 
     
 },500); //Half a second
-
-    
-    
-    
+  
 });

@@ -1,11 +1,8 @@
 <?php include "includes/admin_header.php"; ?>
     
-
-    <div id="wrapper">
-        
+    <div id="wrapper"> 
        
        <?php include "includes/admin_navigation.php"?>
-        
 
         <div id="page-wrapper">
 
@@ -36,7 +33,6 @@
                             
                         </div>
                         </form> 
-
  
                         <form action="" method="post">
 
@@ -55,7 +51,6 @@
 
                             ?> <!-- Calling the update_category file -->
 
-
                         </div>
                         <div class="form-group">
                         <input class="btn btn-primary" type="submit" name="update_category" value="Update Category">
@@ -63,12 +58,10 @@
 
                         </form>
                         
-                        
                         </div> <!-- Add and Edit Category Form -->
                         
                         <div class="col-xs-6">
     
-                        
                         <table class = "table table-bordered table-hover">
                             <thread>
                                 <tr>
@@ -95,10 +88,7 @@
                         mysqli_stmt_execute($stmt);
                             
                         header("Location: categories.php"); //This will refresh the page
-                        
-                         
                         }       
-                                    
                         
                         ?>
                                          

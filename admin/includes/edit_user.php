@@ -65,8 +65,6 @@ if(isset($_GET['edit_user'])){
 
         mysqli_stmt_close($stmt);
             
-            
-
          }else{
             
          //Query to update user's info when password isn't the same as the one in the database    
@@ -90,9 +88,6 @@ if(isset($_GET['edit_user'])){
         confirmQuery($stmt);
 
         mysqli_stmt_close($stmt);
-        
-        
-        
     }
            
         
@@ -100,7 +95,6 @@ if(isset($_GET['edit_user'])){
     User updated: <a href='users.php' class='alert-link'>{$user_firstname} {$user_lastname} </a></div>";
 
  }
-    
 
 }else{
     
@@ -146,13 +140,6 @@ if(isset($_GET['edit_user'])){
 
     </select>
     </div> 
-    
-<!--
-    <div class="form-group">
-        <label for="title"></label>
-          <input type="file" name="image">
-    </div>
--->
     
     <div class="form-group">
         <label for="title">Username</label>

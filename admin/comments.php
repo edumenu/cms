@@ -27,7 +27,6 @@
                 $source = '';
             }
 
-
             switch($source){
 
             case 'add_post';
@@ -45,14 +44,13 @@
                 include "includes/view_all_comments.php";
 
                 break;
-
             }
 
             ?> 
 
             </div>
         </div>
-                <!-- /.row -->
+            <!-- /.row -->
 
             </div>
             <!-- /.container-fluid -->

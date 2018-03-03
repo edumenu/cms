@@ -1,6 +1,5 @@
 <?php if (session_status() == PHP_SESSION_NONE){ session_start(); }?>
    
-   
    <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">

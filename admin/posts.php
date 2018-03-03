@@ -29,7 +29,6 @@
                 $source = '';
             }
 
-
             switch($source){
 
             case 'add_post';
@@ -54,10 +53,10 @@
 
             </div>
         </div>
-                <!-- /.row -->
+        <!-- /.row -->
 
-            </div>
-            <!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
             
             
-         <?php include "includes/admin_footer.php"; ?>
+    <?php include "includes/admin_footer.php"; ?>

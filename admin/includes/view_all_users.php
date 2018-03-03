@@ -9,7 +9,7 @@
                 <th>Role</th>
             </tr>
         </thead>
-        <tbody>
+    <tbody>
     <?php
 
    //Find all categories query
@@ -37,18 +37,15 @@
         echo "<td><a class='btn btn-success' href='users.php?change_to_sub=$user_id'>Subscriber</<a></td>";
         echo "<td><a class='btn btn-primary' href='users.php?source=edit_user&edit_user=$user_id'>Edit</<a></td>";
         echo "<td><a id='$user_firstname' rel='$user_id,$user_firstname' href='javascript:void(0)' class='btn btn-danger delete_link'>Delete</a></td>"; //it the result is undefined, the browser stays on the same page
-        
-//        echo "<td><a onClick=\"javascript: return confirm('Are you sure?'); \" href='users.php?delete=$user_id'>Delete</<a></td>";
         echo "</tr>";
     }
 
     ?>
 
-        </tbody>
+ </tbody>
 </table>
 
 <?php
-
 
 //Change user role to admin
 if(isset($_GET['change_to_admin'])){
@@ -74,7 +71,6 @@ if(isset($_GET['change_to_admin'])){
       }
         
     }
-    
 }
 
 
@@ -94,10 +90,8 @@ if(isset($_GET['change_to_sub'])){
             
     header("Location: users.php"); //This will refresh the page
             
-        }
-        
+        }   
     }
-    
 }
 
 
@@ -119,12 +113,9 @@ if(isset($_POST['delete'])){
             
     header("Location: users.php"); //This will refresh the page
             
-        }
-        
+        }   
     }
-    
 }
-
 
 ?>
 

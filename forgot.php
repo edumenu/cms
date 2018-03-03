@@ -1,8 +1,6 @@
 <?php  include "includes/db.php"; ?>
 <?php  include "includes/header.php"; ?>
 
-
-
 <?php
 
 // Import PHPMailer classes into the global namespace
@@ -17,7 +15,6 @@ require './classes/Config.php';
         redirect('index');
 
     }
-
 
     if(ifItIsMethod('post')){
         //Obtaining the email from the form 
@@ -91,7 +88,6 @@ require './classes/Config.php';
 <!-- Navigation -->
 
 <?php  include "includes/navigation.php"; ?>
-
 
 
 <!-- Page Content -->

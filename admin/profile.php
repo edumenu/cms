@@ -21,13 +21,8 @@ if(isset($_SESSION['username'])){
         $user_email = $row['user_email'];
         //$user_image = $row['user_image'];
         $user_role = $row['user_role'];
-        
-    }
-    
-  
+    } 
 }
-
-
 
 ?>
 
@@ -56,7 +51,7 @@ if(isset($_SESSION['username'])){
      //move_uploaded_file($post_image_temp, "../images/$post_image");
      
      
-       //Query to update to the selected posted
+    //Query to update to the selected posted
     $query = "UPDATE users SET ";
     $query .= "user_firstname = '{$user_firstname}', ";
     $query .= "user_lastname = '{$user_lastname}', ";
@@ -74,22 +69,7 @@ if(isset($_SESSION['username'])){
      
  }
 
-
-
-
-
-
-
-?>     
-            
-                
-                    
-                        
-                            
-                                
-                                    
-                                        
-                                                
+?>                                              
 
 <div id="wrapper">
         
@@ -108,9 +88,7 @@ if(isset($_SESSION['username'])){
                     Welcome to Admin
                     <small>Author</small>
                 </h1>
-                
-                
-                
+
                 <form action="" method="post" enctype="multipart/form-data">
 
                 <div class="form-group">
@@ -125,7 +103,7 @@ if(isset($_SESSION['username'])){
 
                 <div class="form-group">
 
-                    <select name="user_role" id="">
+                <select name="user_role" id="">
 
                     <option value="<?php echo $user_role; ?>"><?php echo $user_role; ?></option>
                 <!--  Giving the user the chance to choose between roles  -->
@@ -141,17 +119,8 @@ if(isset($_SESSION['username'])){
 
                     ?>
 
-
-
                 </select>
                 </div> 
-
-                <!--
-                <div class="form-group">
-                <label for="title"></label>
-                <input type="file" name="image">
-                </div>
-                -->
 
                 <div class="form-group">
                     <label for="title">Username</label>
@@ -174,11 +143,6 @@ if(isset($_SESSION['username'])){
 
                 </form>
                 
-                
-     
-                
-                
-
             </div>
         </div>
                 <!-- /.row -->
@@ -187,4 +151,4 @@ if(isset($_SESSION['username'])){
             <!-- /.container-fluid -->
             
             
-         <?php include "includes/admin_footer.php"; ?>
+<?php include "includes/admin_footer.php"; ?>

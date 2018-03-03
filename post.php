@@ -106,12 +106,6 @@
                     $stmt1 = mysqli_prepare($connection, "INSERT INTO comments (comment_post_id,comment_author,comment_email,comment_content, comment_status, comment_date) VALUES (?,?,?,?,?,?)");
                     mysqli_stmt_bind_param($stmt1, "isssss", $the_post_id, $comment_author, $comment_email, $comment_content, $commentStatus, $date);
                     mysqli_stmt_execute($stmt1);
-                        
-                //This increments the number comments in the db
-//                 $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-//                 $query .= "WHERE post_id = $the_post_id ";
-//                 $update_comment_count = mysqli_query($connection,$query);
-                    
                     
                 }else{
                        
@@ -123,7 +117,6 @@
                     }
                     
                 ?>
-
 
                 <!-- Comments Form -->
                 <div class="well">
@@ -153,17 +146,7 @@
                 <!-- Posted Comments -->
                 
                 <?php
-                //Creating a query to select all approved comments
-                
-//                $query = "SELECT * FROM comments WHERE comment_post_id ={$the_post_id} ";
-//                $query .="AND comment_status = 'approved' ";
-//                $query .="ORDER BY comment_id DESC";
-//                $select_comment_query = mysqli_query($connection, $query);
-//                if(!$select_comment_query){
-//                    die("Query Failed!" . mysqli_error($connection));
-//                
-//                }
-//                    
+                //Creating a query to select all approved comments                   
               
                 $stmt2 = mysqli_prepare($connection, "SELECT comment_date, comment_content, comment_author FROM comments WHERE comment_post_id = ? AND comment_status = 'approved' ORDER BY comment_id DESC");
                 mysqli_stmt_bind_param($stmt2, "i", $the_post_id);
@@ -172,9 +155,6 @@
                     
                     
                 while(mysqli_stmt_fetch($stmt2)){
-//                $comment_date = $row['comment_date'];
-//                $comment_content = $row['comment_content'];
-//                $comment_author = $row['comment_author'];
                     
                     ?>
                     
@@ -193,7 +173,6 @@
                  <?php } }  } else {
                     
                   header("Location: index.php");      
-                    
                     
                 } ?>
 

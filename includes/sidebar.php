@@ -1,5 +1,5 @@
 <!-- Blog Sidebar Widgets Column -->
-            <div class="col-md-4">
+<div class="col-md-4">
                 
     <div class="well" data-spy="affix" data-offset-top="205">
         <h4>View project on github: <a class="btn btn-primary" href="https://github.com/edumenu/cms" target="_blank">Github</a></h4>
@@ -20,8 +20,7 @@
             </form> <!-- Search from -->
             <!-- /.input-group -->
         </div>
-                
-                
+                              
        <!-- Login -->
     <div class="well" data-spy="affix" data-offset-top="205">
        <?php if(isLoggedIn()): ?>
@@ -122,44 +121,41 @@
 </div>
 </div>        
                      
-    <!-- Blog Categories Well -->
-    <div class="well">
+<!-- Blog Categories Well -->
+<div class="well">
 
-       <?php
+   <?php
 
-    //Selecting data from the categories table in the cms database
-    $query = "SELECT * FROM categories";
-    $select_categories_sidebar = mysqli_query($connection,$query);
+//Selecting data from the categories table in the cms database
+$query = "SELECT * FROM categories";
+$select_categories_sidebar = mysqli_query($connection,$query);
 
-        ?>
+    ?>
 
-        <h4>Blog Categories</h4>
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="list-unstyled">
+    <h4>Blog Categories</h4>
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="list-unstyled">
 
-                   <?php
+               <?php
 
-                    while($row = mysqli_fetch_assoc($select_categories_sidebar)){
-                    $cat_id = $row['cat_id'];
-                    $cat_title = $row['cat_title'];
+                while($row = mysqli_fetch_assoc($select_categories_sidebar)){
+                $cat_id = $row['cat_id'];
+                $cat_title = $row['cat_title'];
 
-                    echo "<li> <a href='category.php?category=$cat_id&title=$cat_title'>{$cat_title}</a> </li>";
+                echo "<li> <a href='category.php?category=$cat_id&title=$cat_title'>{$cat_title}</a> </li>";
 
-                    }
+                }
 
-                    ?>
+                ?>
 
-                </ul>
-            </div>
-
-
+            </ul>
         </div>
-        <!-- /.row -->
     </div>
-          
+    <!-- /.row -->
+</div>     
 
-                <!-- Side Widget Well -->
-               <?php include "widget.php"; ?>
+    <!-- Side Widget Well -->
+    <?php include "widget.php"; ?>
 
 </div>

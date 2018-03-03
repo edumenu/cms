@@ -1,8 +1,4 @@
-<?php 
-
-include("delete_modal.php");
-
-
+<?php
 
 //Checking to see if there are any values in the check box array
 if(isset($_POST['checkBoxArray'])){
@@ -18,7 +14,6 @@ if(isset($_POST['checkBoxArray'])){
        
        //Applying changes to the post based on the option selected
        switch($bilk_options){
-               
             
             //If the option selected is published, send this query
            case 'published':
@@ -26,7 +21,6 @@ if(isset($_POST['checkBoxArray'])){
                 mysqli_stmt_bind_param($stmt, "si", $bilk_options, $postvalueId);
                 mysqli_stmt_execute($stmt);
                 confirmQuery($stmt);
-//                mysqli_stmt_bind_result($stmt, $post_id, $post_title);
                
                if($counter == 1){
               echo "<div class='alert alert-success'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -36,7 +30,6 @@ if(isset($_POST['checkBoxArray'])){
                
                }
                break;
-               
                
             //If the option selected is draft, send this query   
             case 'draft':
@@ -83,15 +76,7 @@ if(isset($_POST['checkBoxArray'])){
                
                
                 while(mysqli_stmt_fetch($stmt)){
-//                        $post_category_id = $row['post_category_id'];
-//                        $post_title = $row['post_title'];
-//                        $post_author = $row['post_author'];
-//                        $post_user = $row['post_user'];
-//                        $post_date = $row['post_date'];
-//                        $post_image = $row['post_image'];
-//                        $post_content = $row['post_content'];
-//                        $post_tags = $row['post_tags'];
-//                        $post_status = $row['post_status'];
+
                 }
                
                $post_date = date('d-m-y');
@@ -101,14 +86,12 @@ if(isset($_POST['checkBoxArray'])){
                //Checking for errors
                confirmQuery($stmt2);
                
-               
                if($counter == 1){
                echo "<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
                Clone successful!</div>";
                $counter = $counter + 1;
                }
                break;
-               
                
                //If the option selected is clone, send this query   
            case 'reset':
@@ -124,17 +107,11 @@ if(isset($_POST['checkBoxArray'])){
                Reset successful!</div>";
                $counter = $counter + 1;
                }
-               break;
-               
+               break;           
        }
-   }
-   
+   }  
 }
-
-
 ?>
-
-
 
 <form action="" method="post"> 
 
@@ -159,10 +136,8 @@ if(isset($_POST['checkBoxArray'])){
 <!-- Adding an input and an anchor tag  -->
    <input type="submit" name="submit" class="btn btn-success" value="Apply">
    <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a>
-<!--   <a href="posts.php?source=add_post">Add Posts</a>-->
    
    </div>
-       
         <thead>
             <tr>
                 <th><input id="selectAllBoxes" type="checkbox"></th>
@@ -182,14 +157,11 @@ if(isset($_POST['checkBoxArray'])){
                 <th>Delete</th>
             </tr>
         </thead>
-        <tbody>
+    <tbody>
     <?php
             
-        
         //Checking for a get request called page and assigning it to a variable
         if(isset($_GET['page'])){
-
-
 
         $page = escape($_GET['page']);
 
@@ -208,11 +180,7 @@ if(isset($_POST['checkBoxArray'])){
         }else{
             //If page is greater than 1 multiple ny 5 and divide by 5
             $page_1 = ($page * 5 ) - 5;
-            
-
         }
-
-
 
         $select_query_count = "SELECT * FROM posts"; 
         $find_count = mysqli_query($connection,$select_query_count);
@@ -221,15 +189,11 @@ if(isset($_POST['checkBoxArray'])){
 
         $count = ceil($count / 5);     
 
-        
         $query = "SELECT posts.post_id, posts.post_category_id, posts.post_title, posts.post_author, posts.post_user, posts.post_date, posts.post_image, posts.post_content, "; 
         $query .= "posts.post_tags, posts.post_comment_count, posts.post_status, posts.post_views_count, categories.cat_title, categories.cat_id ";
         $query .= "FROM posts ";
         $query .= "LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER BY posts.post_id DESC LIMIT $page_1,10";
             
-            
-        //Find all categories query
-//        $query = "SELECT * FROM posts ORDER BY post_id DESC LIMIT $page_1,10";
         $select_posts = mysqli_query($connection,$query);
 
         while($row = mysqli_fetch_assoc($select_posts)){
@@ -250,13 +214,11 @@ if(isset($_POST['checkBoxArray'])){
         
         echo "<tr>";
         
-        
         ?>
         <!-- The check array stores the id's of the posts you want to delete -->
         <td><input class='checkBoxes' name='checkBoxArray[]' type='checkbox' value='<?php echo $post_id ?>'></td>
         
         <?php
-        
         
         echo "<td>$post_id</td>";
         
@@ -269,9 +231,7 @@ if(isset($_POST['checkBoxArray'])){
              echo "<td>$post_author</td>"; 
           }elseif(!empty($post_user)){
              echo "<td>$post_user</td>"; 
-          }
-            
-            
+          }    
             
         echo "<td>$post_date</td>";
         echo "<td><img width='100' src='../images/$post_image' alt='image'></td>";
@@ -298,7 +258,7 @@ if(isset($_POST['checkBoxArray'])){
 
     ?>
 
-        </tbody>
+    </tbody>
         
 </table>
 
@@ -326,7 +286,6 @@ if(isset($_POST['checkBoxArray'])){
     } 
 ?>
 
-
 </ul>
 
 </form>  
@@ -353,7 +312,6 @@ if(isset($_POST['delete'])){
         }
     
      } 
-
 }
 
 ?>

@@ -3,8 +3,6 @@
  
  <?php
 
-
-
 if(isset($_POST['submit'])){
  
  $to = "ehdemdume@gmail.com";    //Sender's email
@@ -21,7 +19,6 @@ mail($to,$subject,$body,$header);
     
 }
  ?>
-
 
     <!-- Navigation -->
     
@@ -63,8 +60,6 @@ mail($to,$subject,$body,$header);
 </section>
 
 
-        <hr>
-
-
+<hr>
 
 <?php include "includes/footer.php";?>

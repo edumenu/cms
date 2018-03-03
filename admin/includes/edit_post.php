@@ -49,7 +49,6 @@ if(isset($_POST['update_post'])){
 
         confirmQuery($stmt);
 
-
         while(mysqli_stmt_fetch($stmt)){
 
         }
@@ -66,12 +65,9 @@ if(isset($_POST['update_post'])){
     
     
      echo "<div class='alert alert-success'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>Post Updated: " . "<a href='../post.php?p_id={$the_post_id}' class='alert-link'>{$post_title}</a> or <a href='posts.php' class='alert-link'>Edit more posts</a></div>";
-    
 }
 
 ?>   
-    
-
   
 <form action="" method="post" enctype="multipart/form-data">
 

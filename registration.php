@@ -24,7 +24,6 @@ $pusher = new Pusher\Pusher(getenv('APP_KEY'),getenv('APP_SECRET'),getenv('APP_I
 //Detecting a post method
 if($_SERVER['REQUEST_METHOD'] == "POST"){
  
-
      $username = $_POST['username'];
      $password = $_POST['password'];
      $email = $_POST['email'];
@@ -79,18 +78,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
      }//End of foreach
 
-
     if(empty($error)){
 
         //Registring the new user
         register_user($username, $email, $password);
-
-        //Loging in the user after registration
-//          login_user($username, $password);
         $data['message'] = $username;
+        //Trigger the pusher 
         $pusher->trigger('notifications', 'new_user', $data);
-        
-
     }
     
 }
@@ -151,7 +145,5 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 </section>
 
         <hr>
-
-
-
+    
 <?php include "includes/footer.php";?>

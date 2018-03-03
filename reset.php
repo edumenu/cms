@@ -21,12 +21,6 @@ if($stmt = mysqli_prepare($connection,"SELECT username, user_email, token FROM u
     
     mysqli_stmt_close($stmt);
     
-//    if($_GET['token'] !== $token || $_GET['email'] !== $email){
-//        
-//        redirect('index');
-//        
-//    }
-    
     if(isset($_POST['password']) && isset($_POST['confirmPassword'])){
         //Checking to see if the passwords are the same
         if($_POST['password'] === $_POST['confirmPassword']){
@@ -49,14 +43,9 @@ if($stmt = mysqli_prepare($connection,"SELECT username, user_email, token FROM u
             }
             
             }
-            
-            
         }
         
     }
-
-
-
 ?>
 
 <!-- Navigation -->
@@ -74,12 +63,10 @@ if($stmt = mysqli_prepare($connection,"SELECT username, user_email, token FROM u
                 <div class="panel-body">
                     <div class="text-center">
 
-
                     <h3><i class="fa fa-lock fa-4x"></i></h3>
                     <h2 class="text-center">Reset Password</h2>
                     <p>You can reset your password here.</p>
                     <div class="panel-body">
-
 
                         <form id="register-form" role="form" autocomplete="off" class="form" method="post">
 

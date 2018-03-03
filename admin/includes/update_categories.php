@@ -19,7 +19,7 @@
 
 ?>
 
-        <input value="<?php if(isset($cat_title)){echo $cat_title;}   ?>" type="text" class="form-control" name="cat_title">
+    <input value="<?php if(isset($cat_title)){echo $cat_title;}   ?>" type="text" class="form-control" name="cat_title">
 
 <?php }} } } ?>
                 
@@ -46,12 +46,6 @@
         mysqli_stmt_close($stmt);    
             
         redirect("categories.php");
-            
-//        if(!$stmt){
-//
-//            die("QUERY FAILED" . mysqli_error($connection));
-//
-//        }
             
         }
     }

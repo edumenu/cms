@@ -23,10 +23,7 @@ $_SESSION['user_role'] = null;
 
 header("Location: ../index.php");
 
-
 }
-
-
 
 function users_online(){
     
@@ -65,18 +62,11 @@ function users_online(){
         $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
         echo $count_user = mysqli_num_rows($users_online_query);
         
-        
-           }    
-
-
-       }  // get request isset()
-        
-        
+           }   
+       } 
 }
 
 users_online();
-
-
 
 //Funciton to check query confirmation
 function confirmQuery($result){
@@ -141,11 +131,8 @@ function findAllCategories(){
         echo "<td><a onClick=\"javascript: return confirm('Are you sure?'); \" href = 'categories.php?delete={$cat_id}'>Delete</a></td>";
         echo "<td><a href = 'categories.php?edit={$cat_id}'>Edit</a></td>"; 
         echo "<tr>";
-    }
-    
+    }   
 }
-
-
 
 //This function deletes categories from the table 
 function delete_categories(){
@@ -162,9 +149,7 @@ function delete_categories(){
     $delete_query = mysqli_query($connection, $query);
     header("Location: categories.php"); //This will refresh the page
 
-
     }  
- 
 }
 
 //This function dynamically records the number of records from a table
@@ -189,7 +174,6 @@ function checkStatus($table,$column, $status){
         $query = "SELECT * FROM $table WHERE $column = '$status'";    
         $result = mysqli_query($connection, $query);
        return mysqli_num_rows($result);
-    
 }
 
 //This function check the user's role
@@ -200,7 +184,6 @@ function checkUserRole($table,$column,$role){
         $query = "SELECT * FROM $table WHERE $column = '$role'";    
         $result = mysqli_query($connection, $query);
        return mysqli_num_rows($result);
-    
 }
 
 //A function to check for duplicate username when registring
@@ -219,7 +202,6 @@ function username_exists($username){
     }else{
         return false;
     }
-    
     
 }
 
@@ -317,8 +299,6 @@ function register_user($username,$email,$password){
         //Checking if the query failed
         confirmQuery($register_user_query);
 
-        // $message = " <div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        //     Your registration has been submitted!</div>";  
 }
 
 //A login function
@@ -340,7 +320,6 @@ function login_user($username, $password){
 
         die("Query failed!" . mysqli_error($connection));
     }
-
 
     while($row = mysqli_fetch_array($select_user_query)){
 
@@ -394,7 +373,5 @@ function is_admin($username = ''){
      }
     
 }
-
-
 
 ?>

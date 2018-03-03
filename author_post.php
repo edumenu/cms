@@ -12,8 +12,7 @@
         <div class="row">
 
             <!-- Blog Entries Column -->
-            
-            
+              
             <div class="col-md-8">
                 
                 <?php
@@ -39,14 +38,7 @@
                 //associative array
                 while(mysqli_stmt_fetch($stmt)){
 
-                    
                 ?>
-                   
-<!--
-                   <h1 class="page-header">
-                    Page Heading
-                </h1>
--->
 
                 <!-- First Blog Post -->
                 <h2>
@@ -82,11 +74,10 @@
                     $comment_content = $_POST['comment_content'];
                     
                     
-                    
                     if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
                         
                         
-                        $query = "INSERT INTO comments (comment_post_id,comment_author,comment_email,comment_content, comment_status, comment_date) ";
+                    $query = "INSERT INTO comments (comment_post_id,comment_author,comment_email,comment_content, comment_status, comment_date) ";
                     
                     $query .= "VALUES ($the_post_id,'{$comment_author}','{$comment_email}','{$comment_content}', 'Unapproved', now())";
                     
@@ -95,8 +86,7 @@
                     if(!$create_comment_query){
                         
                         die('QUERY FAILED' . mysqli_error($connection));
-                    } 
-                    
+                    }  
                     
                 //This increments the number comments in the db
                  $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";

@@ -1,7 +1,6 @@
 <?php include "includes/admin_header.php"; ?>
 
     <div id="wrapper">    
-
  
 <!-- Navigation -->
 <?php include "includes/admin_navigation.php"?>
@@ -122,7 +121,7 @@
         </div>
     </div>
 </div>
-                <!-- /.row -->
+    <!-- /.row -->
                 
         <?php
             
@@ -138,7 +137,6 @@
         //Retreiving user roles that are subscribes         
         $subscriber_count = checkUserRole('users','user_role', 'subscriber');
                         
-
         ?>     
                 
     <!--  Graph displaying the Posts, Categories, Users and Comments  -->
@@ -178,7 +176,6 @@
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
         </script>
-
 
     <div id="columnchart_material" style="width: 'auto'; height: 500px;"></div>      
 
@@ -222,10 +219,7 @@ $(document).ready(function(){
       
       toastr .success(`${message} just registered`);
       
-//       console.log(message);
-      
   });
-    
     
 });    
     
