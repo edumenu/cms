@@ -1,5 +1,5 @@
 # cms
-Content Management System 
+Content Management System
 
  This is a full funcitonal cms system which displays posts created by an admin user. 
  This system gives subscribers the chance to view individual posts based on categories and leave comments on each post.
